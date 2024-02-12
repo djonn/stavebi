@@ -116,7 +116,7 @@ public class GameGenerator
     return unfilteredWords;
   }
 
-  public Game GenerateGame()
+  public IEnumerable<string> GetValidWords()
   {
     var unfilteredWords = ParseWords();
     // Console.WriteLine("total words: {0}", unfilteredWords.Count());
@@ -124,6 +124,13 @@ public class GameGenerator
     var words = unfilteredWords.Where(isValidWord).Select(x => x.FullForm).Distinct();
     // Console.WriteLine("filtered words: {0}", words.Count());
 
+    if (words is null) throw new Exception("Something went wrong while finding valid words");
+
+    return words;
+  }
+
+  public Game GenerateGame(IQueryable<string> words)
+  {
     var pangramWords = words.Where(isPangram);
     // Console.WriteLine("pangrams: {0}", pangramWords.Count());
 
@@ -153,8 +160,6 @@ public class GameGenerator
       return new Game()
       {
         Letters = letters,
-        CenterLetter = centerLetter,
-        Solutions = solutions,
         TotalScore = totalScore,
       };
     }

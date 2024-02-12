@@ -30,6 +30,10 @@ using (var scope = app.Services.CreateScope())
 var publicRoute = app.MapGroup("/api");
 StaveBi.Route.Api.Map(publicRoute);
 
+// TODO: add auth
+var adminRoute = app.MapGroup("/admin");
+StaveBi.Route.Admin.Map(adminRoute);
+
 if (app.Environment.IsEnvironment("Development"))
 {
   var debugRoute = app.MapGroup("/debug");

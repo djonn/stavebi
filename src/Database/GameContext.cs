@@ -21,7 +21,11 @@ public class GameContext : DbContext
   {
     modelBuilder.Entity<Word>().HasKey(x => x.Value);
     modelBuilder.Entity<Word>().HasIndex(x => x.Value);
+
+    modelBuilder.Entity<Game>().HasKey(x => x.Letters);
+    modelBuilder.Entity<Game>().HasIndex(x => x.Letters);
   }
 
   public DbSet<Word> Words { get; set; }
+  public DbSet<Game> Games { get; set; }
 }
