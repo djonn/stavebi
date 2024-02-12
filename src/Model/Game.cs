@@ -1,4 +1,4 @@
-
+namespace StaveBi.Model;
 
 public class Game
 {

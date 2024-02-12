@@ -1,3 +1,5 @@
+namespace StaveBi.Model;
+
 public class WordDetails
 {
   public string Id { get; set; }

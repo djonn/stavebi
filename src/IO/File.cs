@@ -1,9 +1,11 @@
 using System.IO;
 using System.Text.Json;
 
+namespace StaveBi.IO;
+
 public static class FileIO
 {
-  public static T ReadJsonFile<T>(string path)
+  public static T? ReadJsonFile<T>(string path)
   {
     var content = File.ReadAllText(path);
 
