@@ -1,0 +1,145 @@
+:root {
+  --yellow: #f7da21;
+  --grey: #e6e6e6;
+  --light-grey: #dcdcdc;
+}
+
+/* Positions */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.left {
+  float: right;
+}
+
+.right {
+  float: left;
+  border-radius: 6px;
+  border: 1px solid var(--light-grey);
+  padding: 12px;
+}
+
+/* Controls */
+
+.controls {
+  width: 300px;
+}
+
+#message {
+  transition: 1s linear all;
+  opacity: 0;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+#message.error {
+  color: lightcoral;
+  transition: none;
+  opacity: 1;
+}
+
+#message.success {
+  color: greenyellow;
+  transition: none;
+  opacity: 1;
+}
+
+#message.info {
+  color: lightskyblue;
+  transition: none;
+  opacity: 1;
+}
+
+input[name="guess"] {
+  caret-color: var(--yellow);
+  color: var(--grey);
+  outline: 0;
+  width: 100%;
+  border: 0;
+
+  padding-bottom: 24px;
+  font-size: 2em;
+}
+
+input[name="guess"]:valid {
+  color: var(--yellow);
+}
+
+/* Hive */
+
+.hive {
+  position: relative;
+  width: 100%;
+  padding-bottom: 103.9230484542%;
+}
+
+.hive .cell-letter {
+  font-weight: 700;
+  font-size: 1.875em;
+  text-anchor: middle;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.hive-cell {
+  position: absolute;
+  top: 33.3333333333%;
+  left: 30%;
+  width: 40%;
+  height: 33.3333333333%;
+}
+
+.hive-cell:nth-child(1) {
+  transform: translate(0, 0);
+}
+
+.hive-cell:nth-child(2) {
+  transform: translate(-75%, -50%);
+}
+
+.hive-cell:nth-child(3) {
+  transform: translate(0, -100%);
+}
+
+.hive-cell:nth-child(4) {
+  transform: translate(75%, -50%);
+}
+
+.hive-cell:nth-child(5) {
+  transform: translate(75%, 50%);
+}
+
+.hive-cell:nth-child(6) {
+  transform: translate(0, 100%);
+}
+
+.hive-cell:nth-child(7) {
+  transform: translate(-75%, 50%);
+}
+
+.hive-cell .cell-fill {
+  fill: var(--grey);
+}
+
+.hive-cell:first-child .cell-fill {
+  fill: var(--yellow);
+}
