@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
 var bannedConjugations = new HashSet<string>() {
@@ -164,6 +164,9 @@ var game = GenerateGame();
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<GameContext>();
+builder.Services.AddScoped((sp) => new GameGenerator("full_wordlist.tsv"));
+
 var app = builder.Build();
 
 app.MapGet("/api", () =>
