@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using StaveBi.Application;
 using StaveBi.Database;
@@ -7,6 +7,12 @@ using StaveBi.Database;
 // var game = generator.GenerateGame();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+  options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddDbContext<GameContext>();
 builder.Services.AddScoped((sp) => new GameGenerator("full_wordlist.tsv"));
 
@@ -14,7 +20,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-  scope.ServiceProvider.GetService<GameContext>()?.Database.Migrate();
+  scope.ServiceProvider.GetService<GameContext>().Database.Migrate();
 }
 
 // app.MapGet("/api", () =>
