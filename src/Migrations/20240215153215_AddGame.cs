@@ -11,7 +11,7 @@ namespace SpellingBee.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Game",
+                name: "Games",
                 columns: table => new
                 {
                     Letters = table.Column<string>(type: "TEXT", nullable: false),
@@ -19,12 +19,12 @@ namespace SpellingBee.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Game", x => x.Letters);
+                    table.PrimaryKey("PK_Games", x => x.Letters);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_Letters",
-                table: "Game",
+                name: "IX_Games_Letters",
+                table: "Games",
                 column: "Letters");
         }
 
@@ -32,7 +32,7 @@ namespace SpellingBee.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Game");
+                name: "Games");
         }
     }
 }

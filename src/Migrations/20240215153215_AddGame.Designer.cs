@@ -10,7 +10,7 @@ using StaveBi.Database;
 namespace SpellingBee.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20240212230848_AddGame")]
+    [Migration("20240215153215_AddGame")]
     partial class AddGame
     {
         /// <inheritdoc />
@@ -31,7 +31,7 @@ namespace SpellingBee.Migrations
 
                     b.HasIndex("Letters");
 
-                    b.ToTable("Game");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("StaveBi.Model.Word", b =>

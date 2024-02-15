@@ -28,7 +28,7 @@ namespace SpellingBee.Migrations
 
                     b.HasIndex("Letters");
 
-                    b.ToTable("Game");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("StaveBi.Model.Word", b =>
