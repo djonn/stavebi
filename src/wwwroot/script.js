@@ -55,9 +55,9 @@ const addToScore = (word) => {
 const startUp = async () => {
   const game = await fetch("/api").then(response => response.json());
 
-  centerLetter = game.centerLetter;
   letters = game.letters;
-  totalScore = game.total;
+  centerLetter = game.letters[0];
+  totalScore = game.totalScore;
 
   setHive(centerLetter, letters);
   setInputPattern(letters);
@@ -77,7 +77,18 @@ const drawFoundWords = () => {
   document.getElementById("found-word-count").textContent = foundWords.length;
 };
 
-const displayMessage = (message, type) => {
+const wrongGuessMap = {
+  FAKE_ID: "Noget er gået galt, prøv at genstarte siden.",
+  INVALID_GUESS: "Ugyldigt gæt, kun de viste bogstaver må bruges og det gule bogstav SKAL bruges",
+  WORD_DOES_NOT_EXIST: "Ordet findes ikke",
+  ALLREADY_GUESSED: "Allerede gættet",
+  CORRECT: "Korrekt!",
+  [undefined]: "Lortet er gået galt af en eller anden grund...",
+}
+
+const displayMessage = (messageEnum, type) => {
+  const message = wrongGuessMap[messageEnum];
+
   if (messageTimeoutId) {
     clearTimeout(messageTimeoutId);
   }
@@ -95,12 +106,12 @@ const displayMessage = (message, type) => {
 
 const makeGuess = async (guess) => {
   if (!RegExp(`^[${letters}]{4,}$`).test(guess) || !guess.includes(centerLetter)) {
-    displayMessage("Ugyldigt gæt", "info")
+    displayMessage("INVALID_GUESS", "info")
     return;
   }
 
   if (foundWords.includes(guess)) {
-    displayMessage("Allerede gættet", "info")
+    displayMessage("ALLREADY_GUESSED", "info")
     return;
   }
 
@@ -108,21 +119,15 @@ const makeGuess = async (guess) => {
     return;
   }
   isLoading = true;
-  const result = await fetch("/api", {
-    method: "POST",
-    body: JSON.stringify(guess),
-    headers: {
-      "Content-type": "application/json"
-    }
-  }).then((response) => response.json())
+  const { success, reason } = await fetch(`/api/${letters}?guess=${guess}`).then((response) => response.json())
   isLoading = false;
 
-  if (!result) {
-    displayMessage("Forkert gæt", "error");
+  if (!success) {
+    displayMessage(reason, "error");
     return;
   }
 
-  displayMessage("Korrekt!", "success");
+  displayMessage("CORRECT", "success");
 
   foundWords.unshift(guess);
   drawFoundWords();
