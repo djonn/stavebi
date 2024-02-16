@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using StaveBi.Database;
@@ -14,6 +15,9 @@ enum WrongGuessReason
 class GuessResponse
 {
   public bool Success { get; set; }
+
+  [JsonConverter(typeof(JsonStringEnumConverter))]
+  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
   public WrongGuessReason Reason { get; set; }
 
   public static GuessResponse CreateSuccess()

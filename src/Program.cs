@@ -1,17 +1,8 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StaveBi.Application;
 using StaveBi.Database;
 
-// var generator = new GameGenerator("full_wordlist.tsv");
-// var game = generator.GenerateGame();
-
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.ConfigureHttpJsonOptions(options =>
-{
-  options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
 
 builder.Services.AddDbContext<GameContext>();
 builder.Services.AddScoped((sp) => new GameGenerator("full_wordlist.tsv"));
@@ -23,20 +14,10 @@ using (var scope = app.Services.CreateScope())
   scope.ServiceProvider.GetService<GameContext>().Database.Migrate();
 }
 
-// app.MapGet("/api", () =>
-// {
-//   return new { letters = game.Letters, centerLetter = game.CenterLetter, total = game.TotalScore };
-// });
-
-// app.MapPost("/api", ([FromBody] string guess) =>
-// {
-//   return game.Solutions.Contains(guess);
-// });
-
 var publicRoute = app.MapGroup("/api");
 StaveBi.Route.Api.Map(publicRoute);
 
-// TODO: add auth
+// TODO: add auth to admin
 var adminRoute = app.MapGroup("/admin");
 StaveBi.Route.Admin.Map(adminRoute);
 
