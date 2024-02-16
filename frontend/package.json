@@ -1,0 +1,20 @@
+{
+  "name": "stave-bi-frontend",
+  "version": "1.0.0",
+  "author": "djonn",
+  "main": "index.ts",
+  "scripts": {
+    "build": "cp assets/* ../src/wwwroot && tsc",
+    "watch": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "spelling",
+    "bee",
+    "danish",
+    "dansk"
+  ],
+  "dependencies": {
+    "typescript": "^5.3.3"
+  }
+}

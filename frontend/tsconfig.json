@@ -1,0 +1,19 @@
+{
+  // https://www.totaltypescript.com/tsconfig-cheat-sheet
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "moduleDetection": "force",
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+
+    "module": "system",
+    "outFile": "../src/wwwroot/index.js",
+    "sourceMap": true,
+
+    "lib": ["es2022", "dom", "dom.iterable"],
+  }
+}

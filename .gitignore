@@ -39,3 +39,7 @@ msbuild.wrn
 # SQLite
 
 db/
+
+# Frontend
+node_modules/
+wwwroot/
