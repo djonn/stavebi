@@ -30,3 +30,25 @@ During development it might be useful to run sqlite in a container, this is done
 [Wordlist manual](https://ordregister.dk/doc/COR.html)
 
 [Alternative wordlist that migth be fun to combine COR with](https://korpus.dsl.dk/resources/licences/dsl-open.html)
+
+
+## TODO
+
+### Need
+
+- [BUG] Dockerfile doesn't build frontend after change to ts
+- [BUG] Calculation of totalScore is faulty
+  * `aijlosu` says it has 58 points, but actually has 114
+- [FEATURE] Previous game selector (FE)
+- [FEATURE] Only add `/debug` and (maybe) `/admin` endpoints when NOT running in production
+
+### Ideas
+
+- Upload to GitHub
+- Admin page for seeing the average word score for a set of letters
+  * Can this somehow be used for difficulty level?
+- If no db is found on startup: create one, seed with words, generate a couple of games
+- Host it somewhere online for people to try it out
+- Have toasts float on top of the remaining page, instead of possibly moving the hive
+- Recreate hive so I haven't just stolen it
+- Auth for admin pages
