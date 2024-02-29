@@ -7,7 +7,7 @@ export type GuessResponse =
 export class Api {
   public static async newGame(): Promise<Game> {
     const gameDto = await fetch("/api").then(response => response.json());
-    return new Game(gameDto.letters, gameDto.totalPoints);
+    return new Game(gameDto.letters, gameDto.totalScore);
   }
 
   public static async guess(game: Game, guess: string): Promise<GuessResponse> {

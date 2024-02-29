@@ -15,7 +15,7 @@ const startUp = async () => {
 
     do {
       newGame = await Api.newGame();
-    } while (!previousGames.includes(newGame.letters));
+    } while (previousGames.includes(newGame.letters));
     
     game = newGame;
     game.save();
