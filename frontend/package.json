@@ -4,8 +4,9 @@
   "author": "djonn",
   "main": "index.ts",
   "scripts": {
-    "build": "cp assets/* ../src/wwwroot && tsc",
+    "build": "rollup -c && cp assets/* ../src/wwwroot",
     "watch": "tsc --watch",
+    "clean": "rm -rf ../src/wwwroot && mkdir ../src/wwwroot && touch ../src/wwwroot/.gitkeep",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -14,7 +15,10 @@
     "danish",
     "dansk"
   ],
-  "dependencies": {
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.12.0",
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   }
 }
