@@ -26,6 +26,29 @@ public static class Debug
       return context.Games.Count();
     });
 
+    route.MapGet("/game", ([FromServices] GameContext context, [FromServices] GameGenerator generator, [FromQuery] string id) =>
+    {
+      var dbGame = context.Games.FirstOrDefault(x => x.Letters == id);
+
+      if (dbGame is null) return null;
+
+      var firstLetter = dbGame.Letters.Substring(0, 1);
+      var words = context.Words
+        .Where(w => w.Value.Contains(firstLetter) && Regex.IsMatch(w.Value, $"^[{dbGame.Letters}]+$"))
+        .Select(w => w.Value);
+
+      var calculatedTotal = generator.calculateTotalScore(words);
+
+      return new
+      {
+        letters = dbGame.Letters,
+        dbTotal = dbGame.TotalScore,
+        calculatedTotal = calculatedTotal,
+        words = words,
+        wordsCount = words.Count(),
+      };
+    });
+
     route.MapGet("/find-solutions", ([FromServices] GameContext context, [FromQuery] string id) =>
     {
       var firstLetter = id.Substring(0, 1);

@@ -83,7 +83,7 @@ public class GameGenerator
     return word.Length + pangramBonus;
   }
 
-  int calculateTotalScore(IEnumerable<string> words)
+  public int calculateTotalScore(IEnumerable<string> words)
   {
     int points = 0;
 
