@@ -35,8 +35,6 @@ docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
 
 ### Need
 
-- [BUG] Calculation of totalScore is faulty
-  * `aijlosu` says it has 58 points, but actually has 114
 - [FEATURE] Previous game selector (FE)
 - [FEATURE] Only add `/debug` and (maybe) `/admin` endpoints when NOT running in production
 

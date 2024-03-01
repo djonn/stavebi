@@ -22,7 +22,7 @@ export class Game {
 
   private static calculateWordScore = (word: string) => {
     if (word.length == 4) return 1;
-    const bonus = (new Set(word.split(""))).size ? 7 : 0
+    const bonus = (new Set(word.split(""))).size === 7 ? 7 : 0
     return word.length + bonus;
   }
 
