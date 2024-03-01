@@ -4,10 +4,10 @@
   "author": "djonn",
   "main": "index.ts",
   "scripts": {
-    "build": "rollup -c && cp assets/* ../src/wwwroot",
-    "watch": "tsc --watch",
+    "build": "rollup -c -o ../src/wwwroot/script.js",
+    "watch": "rollup -c --watch -o ../src/wwwroot/script.js",
     "clean": "rm -rf ../src/wwwroot && mkdir ../src/wwwroot && touch ../src/wwwroot/.gitkeep",
-    "release": "rollup -c -o out/script.js && cp assets/* out",
+    "release": "rollup -c -o out/script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,6 +17,7 @@
     "dansk"
   ],
   "devDependencies": {
+    "@rollup-extras/plugin-copy": "^1.9.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.12.0",
     "tslib": "^2.6.2",
