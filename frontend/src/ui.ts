@@ -5,6 +5,7 @@ const ID_INPUT_GUESS = "input-guess";
 const ID_SCORE_CURRENT = "current-score";
 const ID_SCORE_TOTAL = "total-score";
 const ID_LIST_WORDS = "found-words";
+const ID_GAME_SELECTOR = "selected-game";
 const SELECTOR_HIVE_TEXTS = ".hive-cell text";
 
 export const setHive = (letters: string) => {
@@ -32,6 +33,24 @@ export const setScore = (game: Game): void => {
   if (totalScoreElem?.textContent) totalScoreElem.textContent = game.totalPoints.toString();
 }
 
+export const drawGameSelector = (games: Game[]) => {
+  const gameSelectorElem = document.getElementById(ID_GAME_SELECTOR);
+  if(!gameSelectorElem) return;
+
+  gameSelectorElem.innerHTML = "";
+
+  games.forEach((game) => {
+    let option = document.createElement("li");
+    option.textContent = `${game.letters} (${game.currentPoints}/${game.totalPoints})`;
+    option.value = game.letters;
+    gameSelectorElem.append(option);
+  });
+
+
+  // <option value="fiklort">fiklort (6/176)</option>
+
+};
+
 export const drawFoundWords = (game: Game) => {
   const wordsElem = document.getElementById(ID_LIST_WORDS);
   const wordCountElem = document.getElementById("found-word-count");
@@ -45,7 +64,7 @@ export const drawFoundWords = (game: Game) => {
     wordsElem.append(li);
   })
 
-  wordCountElem.textContent = game.guessedWords.length.toString();;
+  wordCountElem.textContent = game.guessedWords.length.toString();
 };
 
 export const keyEvent = (key: string, callback: () => void) => {

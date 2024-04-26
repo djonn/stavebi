@@ -84,6 +84,14 @@ input[name="guess"]:valid {
   color: var(--yellow);
 }
 
+select#selected-game {
+  margin-bottom: 16px;
+  width: 100%;
+  border-color: var(--grey);
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+}
+
 /* Hive */
 
 .hive {
