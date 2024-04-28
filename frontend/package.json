@@ -4,9 +4,9 @@
   "author": "djonn",
   "main": "index.ts",
   "scripts": {
-    "build": "rollup -c -o ../src/wwwroot/script.js",
-    "watch": "rollup -c --watch -o ../src/wwwroot/script.js",
-    "clean": "rm -rf ../src/wwwroot && mkdir ../src/wwwroot && touch ../src/wwwroot/.gitkeep",
+    "build": "rollup -c -o ../dist/script.js",
+    "watch": "rollup -c --watch -o ../dist/script.js",
+    "clean": "rm -rf ../dist && mkdir ../dist && touch ../dist/.gitkeep",
     "release": "rollup -c -o out/script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -46,8 +46,10 @@ docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
 
 ## Links
 
-[Wordlist source][https://ordregister.dk/]
-[Wordlist manual](https://ordregister.dk/doc/COR.html)
+[Rules](https://www.nytimes.com/2021/07/26/crosswords/spelling-bee-forum-introduction.html)
+
+[Wordlist](https://ordregister.dk/) - 
+[manual](https://ordregister.dk/doc/COR.html)
 
 [Alternative wordlist that might be fun to combine COR with](https://korpus.dsl.dk/resources/licences/dsl-open.html)
 
@@ -56,8 +58,8 @@ docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
 
 ### Need
 
-- [FEATURE] Previous game selector (FE)
 - [FEATURE] Only add `/debug` and (maybe) `/admin` endpoints when NOT running in production
+- [Possibe BUG] Are duplicate letters in a word / in the game letters being handled correctly?
 
 ### Ideas
 
@@ -69,4 +71,6 @@ docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
 - Recreate hive so I haven't just stolen it
 - Auth for admin pages
 - Refactor to use static file hosting, only using dotnet to build a set of json files
-- Add button to shuffle letters
+- While generating valid game consider the base word and require minimum x count of base word
+- Make frontend mobile friendly
+- Click guessed word to open link in ordnet.dk (`https://ordnet.dk/ddo/ordbog?query=lempe`)

@@ -44,3 +44,5 @@ db/
 # Frontend
 node_modules/
 wwwroot/
+
+dist/

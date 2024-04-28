@@ -70,7 +70,7 @@ public class GameGenerator
     return list.ElementAt(rnd.Next(list.Count()));
   }
 
-  IEnumerable<string> findSolutions(char centerLetter, string letters, IEnumerable<string> words)
+  public IEnumerable<string> findSolutions(char centerLetter, string letters, IEnumerable<string> words)
   {
     var letterSet = new HashSet<char>(letters);
     var wordSets = words.Select(x => new { Word = x, Letters = new HashSet<char>(x) });
