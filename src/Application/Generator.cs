@@ -29,6 +29,11 @@ public class GameGenerator
     "iflerord",
   };
 
+  public GameGenerator()
+  {
+    WordListPath = "full_wordlist.tsv";
+  }
+
   public GameGenerator(string wordlistPath)
   {
     WordListPath = wordlistPath;
