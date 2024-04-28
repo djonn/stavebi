@@ -15,34 +15,9 @@ The tool will allow you to create migration scripts using this command
 dotnet ef migrations add <MIGRATION_NAME>
 ```
 
-## How to run (local)
-
-Requires dotnet + node + npm
-
-```sh
-cd frontend
-npm install
-npm run build
-
-cd ..
-dotnet build --project src/SpellingBee.csproj
 ```
-
-You will then need to run a couple of http requests to seed the database and generate some games
-
-```log
-http://localhost:5209/admin/seed-words
-http://localhost:5209/admin/generate
+docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p 5209:80 nginx
 ```
-
-
-## How to run (in docker)
-
-```sh
-docker build -t stavebi .
-docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
-```
-
 
 ## Links
 
@@ -63,14 +38,9 @@ docker run -d --name=stavebi --rm -p 5209:8080 -v ./db:/db stavebi
 
 ### Ideas
 
-- Admin page for seeing the average word score for a set of letters
-  * Can this somehow be used for difficulty level?
-- If no db is found on startup: create one, seed with words, generate a couple of games
 - Host it somewhere online for people to try it out
 - Have toasts float on top of the remaining page, instead of possibly moving the hive
 - Recreate hive so I haven't just stolen it
-- Auth for admin pages
-- Refactor to use static file hosting, only using dotnet to build a set of json files
 - While generating valid game consider the base word and require minimum x count of base word
 - Make frontend mobile friendly
 - Click guessed word to open link in ordnet.dk (`https://ordnet.dk/ddo/ordbog?query=lempe`)
