@@ -26,6 +26,7 @@ public class GameGenerator
     "suffiks",
     "symbol",
     "udråbsord",
+    "iflerord",
   };
 
   public GameGenerator(string wordlistPath)

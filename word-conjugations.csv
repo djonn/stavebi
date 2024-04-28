@@ -9,7 +9,7 @@ flerord   ,flerordsforbindelse        ,     1
 fork      ,forkortelse                ,     1
 formsubj  ,formelt_subjekt            ,     1
 gen       ,genitiv                    ,     1
-iflerord  ,del_af_flerordsforbindelse ,     0
+iflerord  ,del_af_flerordsforbindelse ,     1
 imp       ,imperativ                  ,     0
 inf       ,infinitiv                  ,     0
 infmærke  ,infinitivmærke             ,     1
