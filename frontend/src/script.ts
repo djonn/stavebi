@@ -66,7 +66,7 @@ const startUp = async () => {
     game = newGame;
     game.save();
 
-    const previousGames = previousGameIds.map((id) => Game.load(id));
+    const previousGames = Game.listGames().map((id) => Game.load(id));
 
     setHive(game.letters);
     setInputPattern(game.letters);
