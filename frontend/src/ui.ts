@@ -22,8 +22,10 @@ export const setHive = (letters: string) => {
 };
 
 export const getGuess = (): string =>
-  (<HTMLInputElement | null>document.getElementById(ID_INPUT_GUESS))?.value ??
-  "";
+  (<HTMLInputElement | null>(
+    document.getElementById(ID_INPUT_GUESS)
+  ))?.value?.toLowerCase() ?? "";
+
 export const clearGuess = (): void => {
   const input = <HTMLInputElement | null>(
     document.getElementById(ID_INPUT_GUESS)
@@ -34,7 +36,7 @@ export const clearGuess = (): void => {
 export const setInputPattern = (letters: string): void => {
   (<HTMLInputElement | null>(
     document.getElementById(ID_INPUT_GUESS)
-  ))?.setAttribute("pattern", `[${letters}]*`);
+  ))?.setAttribute("pattern", `[${letters}${letters.toUpperCase()}]*`);
 };
 
 export const setScore = (game: Game): void => {

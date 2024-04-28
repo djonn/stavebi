@@ -100,7 +100,7 @@ export class Game {
     const firstLetter = this._letters[0];
     if (!firstLetter) throw new Error("Why no letters?");
     return (
-      !RegExp(`^[${this._letters}]{4,}$`).test(guess) ||
+      !RegExp(`^[${this._letters}]{4,}$`, "i").test(guess) ||
       !guess.includes(firstLetter)
     );
   }
