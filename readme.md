@@ -11,6 +11,7 @@ dotnet tool restore
 This will install the EntityFramework command line tool into the project
 
 The tool will allow you to create migration scripts using this command
+
 ```sh
 dotnet ef migrations add <MIGRATION_NAME>
 ```
@@ -23,18 +24,16 @@ docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p
 
 [Rules](https://www.nytimes.com/2021/07/26/crosswords/spelling-bee-forum-introduction.html)
 
-[Wordlist](https://ordregister.dk/) - 
+[Wordlist](https://ordregister.dk/) -
 [manual](https://ordregister.dk/doc/COR.html)
 
 [Alternative wordlist that might be fun to combine COR with](https://korpus.dsl.dk/resources/licences/dsl-open.html)
-
 
 ## TODO
 
 ### Need
 
 - [FEATURE] Only add `/debug` and (maybe) `/admin` endpoints when NOT running in production
-- [Possibe BUG] Are duplicate letters in a word / in the game letters being handled correctly?
 
 ### Ideas
 
