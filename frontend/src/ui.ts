@@ -149,6 +149,7 @@ export class Toast {
 
     Toast.messageTimeoutId = setTimeout(() => {
       messageElem.className = "";
+      messageElem.textContent = "";
       Toast.messageTimeoutId = undefined;
     }, 1500);
   }
