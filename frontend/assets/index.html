@@ -1,81 +1,114 @@
 <!DOCTYPE html>
 
 <html>
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Stave bi på Dansk</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="script.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="left">
-            <div class="controls">
-                <div id="message">&nbsp;</div>
-                <input type="text" name="guess" minlength="4" id="input-guess" autofocus onblur="this.focus()">
-                <!-- Okay okay, yes... I did steal the svg's from NYTimes -->
-                <div class="hive">
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                    <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
-                        <polygon class="cell-fill"
-                            points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
-                            stroke="white" stroke-width="7.5"></polygon><text class="cell-letter" x="50%" y="50%"
-                            dy="0.35em"></text>
-                    </svg>
-                </div>
-            </div>
+      <div class="left">
+        <div class="controls">
+          <div id="message">&nbsp;</div>
+          <input
+            type="text"
+            name="guess"
+            minlength="4"
+            id="input-guess"
+            autofocus
+            onblur="this.focus()"
+          />
+          <!-- Okay okay, yes... I did steal the svg's from NYTimes -->
+          <div class="hive">
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+            <svg class="hive-cell" viewBox="0 0 120 103.92304845413263">
+              <polygon
+                class="cell-fill"
+                points="0,51.96152422706631 30,0 90,0 120,51.96152422706631 90,103.92304845413263 30,103.92304845413263"
+                stroke="white"
+                stroke-width="7.5"
+              ></polygon>
+              <text class="cell-letter" x="50%" y="50%" dy="0.35em"></text>
+            </svg>
+          </div>
         </div>
+      </div>
 
-        <div class="right">
-            <select name="selected-game" id="selected-game"></select><br>
-            <span id="current-score">0</span> / <span id="total-score">0</span><br>
-            Du har fundet <span id="found-word-count">0</span> ord.
+      <div class="right">
+        <select name="selected-game" id="selected-game"></select
+        ><br />
+        <span id="current-score">0</span> / <span id="total-score">0</span
+        ><br />
+        Du har fundet <span id="found-word-count">0</span> ord.
 
-            <ul id="found-words">
-            </ul>
+        <ul id="found-words"></ul>
+      </div>
 
-        </div>
+      <div class="bottom">
+        <button id="button-shuffle">Bland</button>
+        <button id="button-submit">Indløs</button>
+        <button id="button-new-game">Nyt spil</button>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>

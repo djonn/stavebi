@@ -15,10 +15,19 @@ body {
 }
 
 .container {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+
+  grid-template-areas: 
+    ". toast toast ."
+    ". hive controls ."
+    ". footer footer ."
+    ;
+
+  /* flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   gap: 24px;
 
   width: 100%;
@@ -26,14 +35,23 @@ body {
 }
 
 .left {
-  float: right;
+  grid-area: hive;
 }
 
 .right {
-  float: left;
+  grid-area: controls;
   border-radius: 6px;
   border: 1px solid var(--light-grey);
   padding: 12px;
+}
+
+.bottom {
+  grid-area: footer;
+
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  height: 24px;
 }
 
 /* Controls */
@@ -95,6 +113,7 @@ select#selected-game {
 /* Hive */
 
 .hive {
+  grid-area: hive;
   position: relative;
   width: 100%;
   padding-bottom: 103.9230484542%;
