@@ -41,4 +41,3 @@ docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p
 - Recreate hive so I haven't just stolen it
 - While generating valid game consider the base word and require minimum x count of base words (lemma)
 - Make frontend mobile friendly
-- Click guessed word to open link in ordnet.dk (`https://ordnet.dk/ddo/ordbog?query=lempe`)

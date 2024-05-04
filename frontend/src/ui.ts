@@ -77,7 +77,11 @@ export const drawFoundWords = (game: Game) => {
 
   game.guessedWords.forEach((word) => {
     let li = document.createElement("li");
-    li.textContent = word;
+    let a = document.createElement("a");
+    a.href = `https://ordnet.dk/ddo/ordbog?query=${word}`
+    a.target = "_blank"
+    a.textContent = word;
+    li.append(a);
     wordsElem.append(li);
   });
 
