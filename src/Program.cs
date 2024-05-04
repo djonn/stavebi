@@ -73,6 +73,26 @@ void GenerateFiles() {
 
 // --------------
 
+if(args.Count() == 1 && args[0].ToLower() == "debug"){
+  Console.WriteLine("running debug command");
+
+  // -------------------------
+
+  var db = CreateDb();
+  var generator = new GameGenerator();
+
+  var wordsQuery = db.Words.Select(x => x.Value).AsQueryable();
+
+  var game = generator.GenerateGame(wordsQuery);
+  var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
+
+  Console.WriteLine("Actual solutions: {0}", string.Join(", ", solutions));
+
+  // -------------------------
+
+  return;
+}
+
 if(args.Count() == 2 && args[0].ToLower() == "add"){
   var gamesToCreate = int.Parse(args[1]);
   AddGames(gamesToCreate);
@@ -101,5 +121,4 @@ if(args.Count() == 1 && args[0].ToLower() == "list"){
 
 // No valid action
 Console.WriteLine("Please specify what you want done.");
-Console.WriteLine("Options are [add, generate]");
 

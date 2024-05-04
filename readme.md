@@ -33,9 +33,6 @@ docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p
 
 ### Need
 
-- [Bug] Something is different between generating games and generating json files for those games
-  * For the game `egklsvæ` I have 167 out of 163 points in 40 words, and there are 126 words total.
-  * `egklsvæ` has 126 solutions but GameGenerator should not generate games with more than 50 solutions
 - [Improvement] Current pointscore in game selector doesn't update when new word is guessed
 
 ### Ideas

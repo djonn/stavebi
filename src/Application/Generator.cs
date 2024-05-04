@@ -147,25 +147,27 @@ public class GameGenerator
     // rely on return to break the loop
     while (true)
     {
-      var letters = pickRandom(letterSets);
-      var centerLetter = pickRandom(letters);
-      var solutions = findSolutions(centerLetter, letters, words);
+      var allLetters = pickRandom(letterSets);
+      var centerLetter = pickRandom(allLetters);
+      var solutions = findSolutions(centerLetter, allLetters, words);
 
       // Letters must have between 10 and 50 solution words
       if (solutions.Count() < 10 || solutions.Count() > 50)
       {
-        Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", letters, solutions.Count());
+        Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", allLetters, solutions.Count());
         continue;
       }
 
       var totalScore = calculateTotalScore(solutions);
 
-      Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", letters, centerLetter, solutions.Count(), totalScore);
+      Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", allLetters, centerLetter, solutions.Count(), totalScore);
       Console.WriteLine("Example solutions: {0}", string.Join(", ", solutions));
+
+      var gameKey = centerLetter + allLetters.Replace(centerLetter.ToString(), "");
 
       return new Game()
       {
-        Letters = letters,
+        Letters = gameKey,
         TotalScore = totalScore,
       };
     }
