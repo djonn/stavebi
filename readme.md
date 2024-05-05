@@ -37,7 +37,6 @@ docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p
 
 ### Ideas
 
-- Have toasts float on top of the remaining page, instead of possibly moving the hive
 - Recreate hive so I haven't just stolen it
 - While generating valid game consider the base word and require minimum x count of base words (lemma)
 - Make frontend mobile friendly

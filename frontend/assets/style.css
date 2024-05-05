@@ -63,31 +63,32 @@ em {
   width: 300px;
 }
 
-#message {
-  transition: 1s linear all;
-  opacity: 0;
-  color: white;
+#toast:popover-open {
+  position: fixed;
+  inset: 0;
+  margin: 0 auto;
+  top: 24px;
+}
+
+#toast {
   text-align: center;
   font-weight: bold;
   font-size: 1.5em;
 }
 
-#message.error {
+#toast.error {
   color: lightcoral;
   transition: none;
-  opacity: 1;
 }
 
-#message.success {
+#toast.success {
   color: greenyellow;
   transition: none;
-  opacity: 1;
 }
 
-#message.info {
+#toast.info {
   color: lightskyblue;
   transition: none;
-  opacity: 1;
 }
 
 input[name="guess"] {

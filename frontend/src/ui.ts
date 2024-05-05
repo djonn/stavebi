@@ -5,6 +5,7 @@ const ID_INPUT_GUESS = "input-guess";
 const ID_SCORE_CURRENT = "current-score";
 const ID_SCORE_TOTAL = "total-score";
 const ID_LIST_WORDS = "found-words";
+const ID_TOAST = "toast";
 const SELECTOR_HIVE_TEXTS = ".hive-cell text";
 
 export const ID_GAME_SELECTOR = "selected-game";
@@ -140,23 +141,23 @@ export const parseMessage = (type: string): Message => {
 };
 
 export class Toast {
-  private static messageTimeoutId: number | undefined;
-
   public static displayMessage(message: Message, type: ToastType): void {
-    if (Toast.messageTimeoutId) {
-      clearTimeout(Toast.messageTimeoutId);
-    }
+    const prevToastElem = document.getElementById(ID_TOAST);
+    if(prevToastElem) prevToastElem.remove();
 
-    const messageElem = document.getElementById("message");
-    if (!messageElem) return;
+    const toastElem = document.createElement("div");
+    toastElem.id = ID_TOAST;
+    toastElem.setAttribute("popover", "manual");
 
-    messageElem.className = type;
-    messageElem.textContent = message;
+    toastElem.classList.add(type);
+    toastElem.textContent = message;
 
-    Toast.messageTimeoutId = setTimeout(() => {
-      messageElem.className = "";
-      messageElem.textContent = "";
-      Toast.messageTimeoutId = undefined;
-    }, 1500);
+    document.body.appendChild(toastElem);
+    toastElem.showPopover();
+
+    setTimeout(() => {
+      toastElem.hidePopover();
+      toastElem.remove();
+    }, 3000);
   }
 }
