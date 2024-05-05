@@ -71,6 +71,26 @@ void GenerateFiles() {
   }
 }
 
+
+void DescribeGame() {
+  var db = CreateDb();
+  var letters = args[1].ToLower();
+  var game = db.Games.SingleOrDefault(x => x.Letters == letters);
+
+  if(game is null){
+    Console.WriteLine("Could not find game");
+    return;
+  }
+
+  var generator = new GameGenerator();
+  var wordsQuery = db.Words.Select(x => x.Value).AsQueryable();
+  var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
+
+  Console.WriteLine($"Game: {letters}");
+  Console.WriteLine($"Total points: {game.TotalScore}");
+  Console.WriteLine($"Words (count): {solutions.Count()}");
+  Console.WriteLine($"Words:\n{string.Join(", ", solutions.OrderBy(x => x.Length))}");
+}
 // --------------
 
 if(args.Count() == 1 && args[0].ToLower() == "debug"){
@@ -116,6 +136,11 @@ if(args.Count() == 1 && args[0].ToLower() == "list"){
   var gamesList = String.Join(Environment.NewLine, db.Games.Select(x => x.Letters));
   Console.WriteLine("Game list:");
   Console.WriteLine(gamesList);
+  return;
+}
+
+if(args.Count() == 2 && args[0].ToLower() == "describe"){
+  DescribeGame();
   return;
 }
 
