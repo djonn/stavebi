@@ -89,6 +89,18 @@ void AddGamesChallenge(int count) {
     }
   }
 }
+void AddSpecificGame(string letters) {
+  var db = CreateDb();
+  var generator = new GameGenerator();
+  var wordsQuery = db.Words.AsQueryable();
+
+  var newGame = generator.ValidateGame(letters, wordsQuery);
+
+  if(newGame is not null){
+    db.Games.Add(newGame);
+    db.SaveChanges();
+  }
+}
 
 void GenerateFiles() {
   var db = CreateDb();
@@ -111,9 +123,8 @@ void GenerateFiles() {
 }
 
 
-void DescribeGame() {
+void DescribeGame(string letters) {
   var db = CreateDb();
-  var letters = args[1].ToLower();
   var game = db.Games.SingleOrDefault(x => x.Letters == letters);
 
   if(game is null){
@@ -135,8 +146,6 @@ void DescribeGame() {
 if(args.Count() == 1 && args[0].ToLower() == "debug"){
   Console.WriteLine("running debug command");
 
-  // -------------------------
-
   var db = CreateDb();
   var generator = new GameGenerator();
 
@@ -146,8 +155,6 @@ if(args.Count() == 1 && args[0].ToLower() == "debug"){
   var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
 
   Console.WriteLine("Actual solutions: {0}", string.Join(", ", solutions));
-
-  // -------------------------
 
   return;
 }
@@ -161,6 +168,12 @@ if(args.Count() == 2 && args[0].ToLower() == "add"){
 if(args.Count() == 2 && args[0].ToLower() == "add-challenge"){
   var gamesToCreate = int.Parse(args[1]);
   AddGamesChallenge(gamesToCreate);
+  return;
+}
+
+if(args.Count() == 2 && args[0].ToLower() == "add-specific"){
+  var letters = args[1].ToLower();
+  AddSpecificGame(letters);
   return;
 }
 
@@ -185,10 +198,10 @@ if(args.Count() == 1 && args[0].ToLower() == "list"){
 }
 
 if(args.Count() == 2 && args[0].ToLower() == "describe"){
-  DescribeGame();
+  var letters = args[1].ToLower();
+  DescribeGame(letters);
   return;
 }
 
 // No valid action
 Console.WriteLine("Please specify what you want done.");
-
