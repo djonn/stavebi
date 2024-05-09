@@ -50,6 +50,45 @@ void AddGames(int count) {
   }
 }
 
+void AddGamesChallenge(int count) {
+  var db = CreateDb();
+  var generator = new GameGenerator();
+  var wordsQuery = db.Words.AsQueryable();
+
+  var createdCount = 0;
+
+  while(createdCount<count){
+    Console.WriteLine($"Remaining games to generate: {count - createdCount}");
+    var newGame = generator.GenerateGame(wordsQuery);
+
+    if(db.Games.Any(x => x.Letters == newGame.Letters))
+    {
+      Console.WriteLine($"Game {newGame.Letters} already exists");
+      continue;
+    }
+
+    var solutions = generator.findSolutions(newGame.Letters[0], newGame.Letters, wordsQuery);
+
+    Console.WriteLine("Challenge:");
+    Console.WriteLine("  "+newGame.Letters);
+    Console.WriteLine("Words:");
+    Console.WriteLine("  "+string.Join("\n  ", solutions));
+    Console.WriteLine("");
+    Console.WriteLine("Do you accept? [y]/n");
+
+    var response = Console.ReadKey();
+
+    if(
+      response.Key == ConsoleKey.Y
+      || response.Key == ConsoleKey.Enter
+    )
+    {
+      db.Games.Add(newGame);
+      db.SaveChanges();
+      createdCount++;
+    }
+  }
+}
 
 void GenerateFiles() {
   var db = CreateDb();
@@ -116,6 +155,12 @@ if(args.Count() == 1 && args[0].ToLower() == "debug"){
 if(args.Count() == 2 && args[0].ToLower() == "add"){
   var gamesToCreate = int.Parse(args[1]);
   AddGames(gamesToCreate);
+  return;
+}
+
+if(args.Count() == 2 && args[0].ToLower() == "add-challenge"){
+  var gamesToCreate = int.Parse(args[1]);
+  AddGamesChallenge(gamesToCreate);
   return;
 }
 
