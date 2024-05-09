@@ -59,14 +59,14 @@ public class GameGenerator
     return true;
   }
 
-  bool isPangram(string word)
+  bool isPangram(WordDetails word)
   {
-    return word.Distinct().Count() == 7;
+    return word.FullForm.Distinct().Count() == 7;
   }
 
-  string selectUniqueLetters(string word)
+  string selectUniqueLetters(WordDetails word)
   {
-    return string.Join("", word.Distinct().Order().Select((x) => x.ToString()));
+    return string.Join("", word.FullForm.Distinct().Order().Select((x) => x.ToString()));
   }
 
   T pickRandom<T>(IEnumerable<T> list)
@@ -75,21 +75,21 @@ public class GameGenerator
     return list.ElementAt(rnd.Next(list.Count()));
   }
 
-  public IEnumerable<string> findSolutions(char centerLetter, string letters, IEnumerable<string> words)
+  public IEnumerable<WordDetails> findSolutions(char centerLetter, string letters, IEnumerable<WordDetails> words)
   {
     var letterSet = new HashSet<char>(letters);
-    var wordSets = words.Select(x => new { Word = x, Letters = new HashSet<char>(x) });
+    var wordSets = words.Select(x => new { Word = x, Letters = new HashSet<char>(x.FullForm) });
     return wordSets.Where(x => x.Letters.Contains(centerLetter) && x.Letters.IsSubsetOf(letterSet)).Select(x => x.Word);
   }
 
-  int calculateWordScore(string word)
+  int calculateWordScore(WordDetails word)
   {
-    if (word.Length == 4) return 1;
+    if (word.FullForm.Length == 4) return 1;
     var pangramBonus = isPangram(word) ? 7 : 0;
-    return word.Length + pangramBonus;
+    return word.FullForm.Length + pangramBonus;
   }
 
-  public int calculateTotalScore(IEnumerable<string> words)
+  public int calculateTotalScore(IEnumerable<WordDetails> words)
   {
     int points = 0;
 
@@ -122,24 +122,19 @@ public class GameGenerator
     return unfilteredWords;
   }
 
-  public IEnumerable<string> GetValidWords()
+  public IEnumerable<WordDetails> GetValidWords()
   {
     var unfilteredWords = ParseWords();
-    // Console.WriteLine("total words: {0}", unfilteredWords.Count());
-
-    var words = unfilteredWords.Where(isValidWord).Select(x => x.FullForm).Distinct();
-    // Console.WriteLine("filtered words: {0}", words.Count());
+    var words = unfilteredWords.Where(isValidWord);
 
     if (words is null) throw new Exception("Something went wrong while finding valid words");
 
     return words;
   }
 
-  public Game GenerateGame(IQueryable<string> words)
+  public Game GenerateGame(IQueryable<WordDetails> words)
   {
     var pangramWords = words.Where(isPangram);
-    // Console.WriteLine("pangrams: {0}", pangramWords.Count());
-
     var pangramGroups = pangramWords.GroupBy(selectUniqueLetters, x => x, (key, words) => new { Key = key, Value = words });
     var nonUniqueLetters = pangramGroups.Where((a) => a.Value.Count() != 1);
     var letterSets = pangramGroups.Select(x => x.Key);
@@ -151,7 +146,6 @@ public class GameGenerator
       var centerLetter = pickRandom(allLetters);
       var solutions = findSolutions(centerLetter, allLetters, words);
 
-      // Letters must have between 10 and 50 solution words
       if (solutions.Count() < 10 || solutions.Count() > 50)
       {
         Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", allLetters, solutions.Count());

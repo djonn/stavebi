@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using StaveBi.Application;
 using StaveBi.Database;
-using StaveBi.Model;
 
 GameContext CreateDb() {
     var config = new ConfigurationBuilder()
@@ -17,7 +16,7 @@ GameContext CreateDb() {
     Console.WriteLine("Seeding words into database");
 
     var generator = new GameGenerator();
-    var words = generator.GetValidWords().Select(x => new Word(x));
+    var words = generator.GetValidWords();
     db.Words.AddRange(words);
     db.SaveChanges();
 
@@ -37,7 +36,7 @@ void AddGames(int count) {
 
   while(createdCount<count){
     Console.WriteLine($"Remaining games to generate: {count - createdCount}");
-    var newGame = generator.GenerateGame(db.Words.Select(x => x.Value).AsQueryable());
+    var newGame = generator.GenerateGame(db.Words.AsQueryable());
 
     if(db.Games.Any(x => x.Letters == newGame.Letters))
     {
@@ -51,6 +50,7 @@ void AddGames(int count) {
   }
 }
 
+
 void GenerateFiles() {
   var db = CreateDb();
   var generator = new GameGenerator();
@@ -62,7 +62,7 @@ void GenerateFiles() {
   var gamesListFilePath = Path.Combine(outputPath, "games.json");
   File.WriteAllText(gamesListFilePath, JsonSerializer.Serialize(games));
 
-  var wordsQuery = db.Words.Select(x => x.Value).AsQueryable();
+  var wordsQuery = db.Words.AsQueryable();
   var gamesWithWords = games.ToDictionary(game => game.Letters, game => generator.findSolutions(game.Letters[0], game.Letters, wordsQuery));
   foreach (var game in gamesWithWords)
   {
@@ -83,13 +83,13 @@ void DescribeGame() {
   }
 
   var generator = new GameGenerator();
-  var wordsQuery = db.Words.Select(x => x.Value).AsQueryable();
+  var wordsQuery = db.Words.AsQueryable();
   var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
 
   Console.WriteLine($"Game: {letters}");
   Console.WriteLine($"Total points: {game.TotalScore}");
   Console.WriteLine($"Words (count): {solutions.Count()}");
-  Console.WriteLine($"Words:\n{string.Join(", ", solutions.OrderBy(x => x.Length))}");
+  Console.WriteLine($"Words:\n{string.Join(", ", solutions.Select(x => x.FullForm).OrderBy(x => x.Length))}");
 }
 // --------------
 
@@ -101,7 +101,7 @@ if(args.Count() == 1 && args[0].ToLower() == "debug"){
   var db = CreateDb();
   var generator = new GameGenerator();
 
-  var wordsQuery = db.Words.Select(x => x.Value).AsQueryable();
+  var wordsQuery = db.Words.AsQueryable();
 
   var game = generator.GenerateGame(wordsQuery);
   var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
