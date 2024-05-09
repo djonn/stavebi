@@ -10,23 +10,23 @@ public class GameGenerator
 
   static readonly HashSet<string> bannedConjugations = new HashSet<string>()
   {
-    "art",
-    "flerord",
-    "fork",
-    "formsubj",
-    "gen",
-    "infmærke",
-    "kardinal",
-    "lydord",
-    "nom",
-    "ordinal",
-    "præfiks",
-    "prop",
-    "sms",
-    "suffiks",
-    "symbol",
-    "udråbsord",
-    "iflerord",
+    "art",       // artikel
+    "flerord",   // flerordsforbindelse
+    "fork",      // forkortelse
+    "formsubj",  // formelt subjekt
+    "gen",       // genitiv
+    "infmærke",  // infinitivmærke
+    "kardinal",  // kardinalform
+    "lydord",    // lydord
+    "nom",       // nominal
+    "ordinal",   // ordinalform
+    "præfiks",   // præfiks
+    "prop",      // proprium
+    "sms",       // sammensætningsform
+    "suffiks",   // suffiks
+    "symbol",    // symbol
+    "udråbsord", // udråbsord
+    "iflerord",  // del af flerordsforbindelse
   };
 
   public GameGenerator()
