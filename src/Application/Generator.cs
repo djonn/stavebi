@@ -144,15 +144,21 @@ public class GameGenerator
     {
       var allLetters = pickRandom(letterSets);
       var centerLetter = pickRandom(allLetters);
-      var solutions = findSolutions(centerLetter, allLetters, words);
 
-      if (solutions.Count() < 10 || solutions.Count() > 50)
+      var solutions = findSolutions(centerLetter, allLetters, words);
+      var totalScore = calculateTotalScore(solutions);
+
+      if (solutions.Count() < 10 || solutions.Count() > 30)
       {
         Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", allLetters, solutions.Count());
         continue;
       }
 
-      var totalScore = calculateTotalScore(solutions);
+      if (totalScore > 120)
+      {
+        Console.WriteLine("Invalid letters \"{0}\" has a score of {1}", allLetters, totalScore);
+        continue;
+      }
 
       Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", allLetters, centerLetter, solutions.Count(), totalScore);
       Console.WriteLine("Example solutions: {0}", string.Join(", ", solutions));
