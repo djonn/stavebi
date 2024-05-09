@@ -89,6 +89,7 @@ void AddGamesChallenge(int count) {
     }
   }
 }
+
 void AddSpecificGame(string letters) {
   var db = CreateDb();
   var generator = new GameGenerator();
@@ -122,7 +123,6 @@ void GenerateFiles() {
   }
 }
 
-
 void DescribeGame(string letters) {
   var db = CreateDb();
   var game = db.Games.SingleOrDefault(x => x.Letters == letters);
@@ -141,6 +141,7 @@ void DescribeGame(string letters) {
   Console.WriteLine($"Words (count): {solutions.Count()}");
   Console.WriteLine($"Words:\n{string.Join(", ", solutions.Select(x => x.FullForm).OrderBy(x => x.Length))}");
 }
+
 // --------------
 
 if(args.Count() == 1 && args[0].ToLower() == "debug"){

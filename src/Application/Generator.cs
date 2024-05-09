@@ -59,9 +59,9 @@ public class GameGenerator
     return true;
   }
 
-  bool isPangram(WordDetails word)
+  bool isPangram(string word)
   {
-    return word.FullForm.Distinct().Count() == 7;
+    return word.Distinct().Count() == 7;
   }
 
   string selectUniqueLetters(string word)
@@ -82,14 +82,14 @@ public class GameGenerator
     return wordSets.Where(x => x.Letters.Contains(centerLetter) && x.Letters.IsSubsetOf(letterSet)).Select(x => x.Word);
   }
 
-  int calculateWordScore(WordDetails word)
+  int calculateWordScore(string word)
   {
-    if (word.FullForm.Length == 4) return 1;
+    if (word.Length == 4) return 1;
     var pangramBonus = isPangram(word) ? 7 : 0;
-    return word.FullForm.Length + pangramBonus;
+    return word.Length + pangramBonus;
   }
 
-  public int calculateTotalScore(IEnumerable<WordDetails> words)
+  public int calculateTotalScore(IEnumerable<string> words)
   {
     int points = 0;
 
@@ -134,7 +134,7 @@ public class GameGenerator
 
   public Game GenerateGame(IQueryable<WordDetails> words)
   {
-    var pangramWords = words.Where(isPangram);
+    var pangramWords = words.Where(x => isPangram(x.FullForm));
     var pangramGroups = pangramWords.GroupBy((x) => selectUniqueLetters(x.FullForm), x => x, (key, words) => new { Key = key, Value = words });
     var nonUniqueLetters = pangramGroups.Where((a) => a.Value.Count() != 1);
     var letterSets = pangramGroups.Select(x => x.Key);
@@ -159,12 +159,20 @@ public class GameGenerator
       return null;
     }
 
-    var solutions = findSolutions(letters[0], letters, words);
-    var totalScore = calculateTotalScore(solutions);
+    var allSolutions = findSolutions(letters[0], letters, words);
 
-    if (solutions.Count() < 10 || solutions.Count() > 30)
+    var uniqueSolutions = allSolutions.Select(x => x.FullForm).Distinct();
+    var totalScore = calculateTotalScore(uniqueSolutions);
+    var baseWordCount = allSolutions.Select(x => x.Lemma).Distinct().Count();
+
+    if (uniqueSolutions.Count() < 10 || uniqueSolutions.Count() > 50)
     {
-      Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", letters, solutions.Count());
+      Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", letters, uniqueSolutions.Count());
+      return null;
+    }
+
+    if(baseWordCount < 5) {
+      Console.WriteLine("Invalid letters \"{0}\" too few unique base words / lemmas", letters, baseWordCount);
       return null;
     }
 
@@ -174,8 +182,8 @@ public class GameGenerator
       return null;
     }
 
-    Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", letters, letters[0], solutions.Count(), totalScore);
-    Console.WriteLine("Example solutions: {0}", string.Join(", ", solutions));
+    Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", letters, letters[0], allSolutions.Count(), totalScore);
+    Console.WriteLine("Example solutions: {0}", string.Join(", ", allSolutions));
 
     return new Game()
     {

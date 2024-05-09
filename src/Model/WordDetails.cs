@@ -7,5 +7,5 @@ public class WordDetails
   public string Example { get; set; }
   public HashSet<string> Conjugation { get; set; }
   public string FullForm { get; set; }
-  public bool Standardized { get; set; } // TODO: This gets serialized wrong in JS(tsv->json) atm
+  public bool Standardized { get; set; }
 }
