@@ -7,6 +7,14 @@ public class GameContext : DbContext
 {
   protected readonly IConfiguration Configuration;
 
+  public GameContext()
+  {
+    Configuration = new ConfigurationBuilder()
+      .AddJsonFile("appsettings.json")
+      .Build();
+
+  }
+
   public GameContext(IConfiguration configuration)
   {
     Configuration = configuration;
