@@ -8,4 +8,6 @@ public class WordDetails
   public HashSet<string> Conjugation { get; set; }
   public string FullForm { get; set; }
   public bool Standardized { get; set; }
+
+  public double? LemmaFrequency { get; set; }
 }

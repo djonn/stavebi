@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using StaveBi.IO;
 using StaveBi.Model;
@@ -7,6 +9,7 @@ namespace StaveBi.Application;
 public class GameGenerator
 {
   public string WordListPath { get; private set; }
+  public string WordFreqListPath { get; private set; }
 
   static readonly HashSet<string> bannedConjugations = new HashSet<string>()
   {
@@ -32,11 +35,7 @@ public class GameGenerator
   public GameGenerator()
   {
     WordListPath = "full_wordlist.tsv";
-  }
-
-  public GameGenerator(string wordlistPath)
-  {
-    WordListPath = wordlistPath;
+    WordFreqListPath = "freq-30k-ex.txt";
   }
 
   public bool isValidWord(WordDetails word)
@@ -122,10 +121,51 @@ public class GameGenerator
     return unfilteredWords;
   }
 
+  public IEnumerable<LemmaFrequency> ParseFequencies()
+  {
+    var freq = FileIO.ReadTsvFile(WordFreqListPath, (fields) =>
+    {
+      if (fields.Count() < 3) throw new Exception("Wrong input data");
+
+      return new LemmaFrequency()
+      {
+        Tag = fields.ElementAt(0),
+        Lemma = fields.ElementAt(1),
+        Frequency = double.Parse(fields.ElementAt(2), NumberStyles.Any, CultureInfo.InvariantCulture),
+      };
+    });
+    if (freq is null) throw new Exception("Ya dun goof'd");
+
+    return freq;
+  }
+
+  public void AddFrequencies(List<WordDetails> words, List<LemmaFrequency> lemmaFrequencies){
+    var wordsByLemma = words.GroupBy(x => x.Lemma).ToDictionary(g => g.Key, g => g.ToList());
+    var existingLemmas = wordsByLemma.Select(x => x.Key).ToHashSet();
+    var existingLemmaFrequencies = lemmaFrequencies.Where(x => existingLemmas.Contains(x.Lemma)).ToList();
+
+    foreach(var lemmaFrequency in existingLemmaFrequencies) {
+      var lemmaGroup = wordsByLemma[lemmaFrequency.Lemma];
+      Console.WriteLine("Lemma: {0} - {1}", lemmaFrequency.Lemma, lemmaGroup.Count());
+      foreach(var word in lemmaGroup) {
+        word.LemmaFrequency = lemmaFrequency.Frequency;
+      }
+    }
+  }
+
   public IEnumerable<WordDetails> GetValidWords()
   {
+    Console.WriteLine("Parsing wordlist");
     var unfilteredWords = ParseWords();
-    var words = unfilteredWords.Where(isValidWord);
+
+    Console.WriteLine("Filtering out invalid words");
+    var words = unfilteredWords.Where(isValidWord).ToList();
+
+    Console.WriteLine("Parsing word frequency list");
+    var lemmaFrequencies = ParseFequencies().ToList();
+
+    Console.WriteLine("Adding frequencies to words");
+    AddFrequencies(words, lemmaFrequencies);
 
     if (words is null) throw new Exception("Something went wrong while finding valid words");
 
