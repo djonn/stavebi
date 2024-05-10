@@ -24,10 +24,12 @@ docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p
 
 [Rules](https://www.nytimes.com/2021/07/26/crosswords/spelling-bee-forum-introduction.html)
 
-[Wordlist](https://ordregister.dk/) -
+[Wordlist](https://ordregister.dk/) (CC0 license) -
 [manual](https://ordregister.dk/doc/COR.html)
 
-[Alternative wordlist that might be fun to combine COR with](https://korpus.dsl.dk/resources/licences/dsl-open.html)
+- [Alternative wordlist](https://korpus.dsl.dk/resources/licences/dsl-open.html) that might be fun to combine with COR.
+- [Gigaword - Danish word corpus](https://gigaword.dk/) - May be interesting to count word usage and not use words that are seldom used. (Notice CC-BY 4.0 license requiring acknowledgement)
+- [Frequency of lemmas](https://korpus.dsl.dk/resources/details/freq-lemmas.html) - Precomputed list of frequencies of danish words
 
 ## TODO
 
