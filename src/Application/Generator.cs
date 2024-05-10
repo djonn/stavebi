@@ -39,7 +39,7 @@ public class GameGenerator
     WordListPath = wordlistPath;
   }
 
-  bool isValidWord(WordDetails word)
+  public bool isValidWord(WordDetails word)
   {
     // Has to be in the Danish dictionary
     if (word.Standardized != true) return false;
@@ -141,20 +141,21 @@ public class GameGenerator
 
     // rely on return to break the loop
     while (true)
-        {
-            var allLetters = pickRandom(letterSets);
-            var centerLetter = pickRandom(allLetters);
+    {
+      var allLetters = pickRandom(letterSets);
+      var centerLetter = pickRandom(allLetters);
 
-            var letters = centerLetter + allLetters.Replace(centerLetter.ToString(), "");
-            var game = ValidateGame(letters, words);
+      var letters = centerLetter + allLetters.Replace(centerLetter.ToString(), "");
+      var game = ValidateGame(letters, words);
 
-            if (game is not null) return game;
-        }
+      if (game is not null) return game;
     }
+  }
 
   public Game? ValidateGame(string letters, IQueryable<WordDetails> words)
   {
-    if(letters.Length != 7 || selectUniqueLetters(letters).Length != 7){
+    if (letters.Length != 7 || selectUniqueLetters(letters).Length != 7)
+    {
       Console.WriteLine("Invalid letters \"{0}\" is not a set for 7 unique characters", letters);
       return null;
     }
@@ -171,7 +172,8 @@ public class GameGenerator
       return null;
     }
 
-    if(baseWordCount < 5) {
+    if (baseWordCount < 5)
+    {
       Console.WriteLine("Invalid letters \"{0}\" too few unique base words / lemmas", letters, baseWordCount);
       return null;
     }
