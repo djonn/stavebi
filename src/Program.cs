@@ -163,12 +163,22 @@ if (args.Count() == 1 && args[0].ToLower() == "debug")
   var generator = new GameGenerator();
 
   var wordsQuery = db.Words.AsQueryable();
+  var wordsWithFreq = wordsQuery.Where(x => x.LemmaFrequency != null);
 
-  var game = generator.GenerateGame(wordsQuery);
-  var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
+  Console.WriteLine("Words: {0}", wordsQuery.Count());
+  Console.WriteLine("Words with freq: {0}", wordsWithFreq.Count());
 
-  Console.WriteLine("Actual solutions: {0}", string.Join(", ", solutions));
+  // var game = generator.GenerateGame(wordsQuery);
+  // var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
+  // Console.WriteLine("Actual solutions: {0}", string.Join(", ", solutions));
 
+  return;
+}
+
+if (args.Count() == 1 && args[0].ToLower() == "init")
+{
+  CreateDb();
+  Console.WriteLine("Database is ready");
   return;
 }
 
