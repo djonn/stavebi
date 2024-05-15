@@ -1,3 +1,6 @@
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using StaveBi.IO;
 using StaveBi.Model;
@@ -69,10 +72,10 @@ public class GameGenerator
     return string.Join("", word.Distinct().Order().Select((x) => x.ToString()));
   }
 
-  T pickRandom<T>(IEnumerable<T> list)
+  T pickRandom<T>(IEnumerable<T> list, int count)
   {
     var rnd = new Random();
-    return list.ElementAt(rnd.Next(list.Count()));
+    return list.ElementAt(rnd.Next(count));
   }
 
   public IEnumerable<WordDetails> findSolutions(char centerLetter, string letters, IEnumerable<WordDetails> words)
@@ -132,31 +135,61 @@ public class GameGenerator
     return words;
   }
 
-  public Game GenerateGame(IQueryable<WordDetails> words)
+  public IEnumerable<Game> GenerateGame(IQueryable<WordDetails> words)
   {
-    var pangramWords = words.Where(x => isPangram(x.FullForm));
-    var pangramGroups = pangramWords.GroupBy((x) => selectUniqueLetters(x.FullForm), x => x, (key, words) => new { Key = key, Value = words });
+    var pangramWords = words.Select(x => x.FullForm).AsEnumerable().Where(x => isPangram(x));
+    var pangramGroups = pangramWords.GroupBy((x) => selectUniqueLetters(x), x => x, (key, words) => new { Key = key, Value = words });
     var nonUniqueLetters = pangramGroups.Where((a) => a.Value.Count() != 1);
     var letterSets = pangramGroups.Select(x => x.Key);
 
+    var safeWords = words.ToList().ToImmutableList();
+
     // rely on return to break the loop
-    while (true)
-    {
-      var allLetters = pickRandom(letterSets);
-      var centerLetter = pickRandom(allLetters);
+    var letterSetsCount = letterSets.Count();
+    Console.WriteLine($"{letterSetsCount} pangram groups found!");
 
-      var letters = centerLetter + allLetters.Replace(centerLetter.ToString(), "");
-      var game = ValidateGame(letters, words);
+    var source = letterSets
+            .Take(1500)
+            .ToArray();
+    var result = new ConcurrentBag<Game>();
 
-      if (game is not null) return game;
-    }
+    var partitioner = Partitioner.Create(0, source.Length);
+
+    Console.WriteLine("starting loop");
+
+    var watch = Stopwatch.StartNew();
+    Parallel.ForEach(partitioner, (range, state) => {
+      for (int i = range.Item1; i < range.Item2; i++)
+      {
+        var allLetters = source[i];
+        for(int j = 0; j < 7; j++)
+        {
+          var letters = allLetters[j] + allLetters.Remove(j,1);
+          var game = ValidateGame(letters, safeWords);
+
+          if(game is not null)
+          {
+            result.Add(game);
+            Console.WriteLine($"Found game - {game.Letters} ({game.TotalScore})");
+          }
+        }
+      }
+    });
+    watch.Stop();
+    Console.WriteLine($"loop finished in {watch.Elapsed}");
+
+    var resultCount = result.Count();
+
+    Console.WriteLine($"{resultCount} valid games found!!!");
+
+    return result.ToArray();
   }
 
-  public Game? ValidateGame(string letters, IQueryable<WordDetails> words)
+  public Game? ValidateGame(string letters, IEnumerable<WordDetails> words)
   {
     if (letters.Length != 7 || selectUniqueLetters(letters).Length != 7)
     {
-      Console.WriteLine("Invalid letters \"{0}\" is not a set for 7 unique characters", letters);
+      // Console.WriteLine("Invalid letters \"{0}\" is not a set for 7 unique characters", letters);
       return null;
     }
 
@@ -168,24 +201,24 @@ public class GameGenerator
 
     if (uniqueSolutions.Count() < 10 || uniqueSolutions.Count() > 50)
     {
-      Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", letters, uniqueSolutions.Count());
+      // Console.WriteLine("Invalid letters \"{0}\" has {1} solutions", letters, uniqueSolutions.Count());
       return null;
     }
 
     if (baseWordCount < 5)
     {
-      Console.WriteLine("Invalid letters \"{0}\" too few unique base words / lemmas", letters, baseWordCount);
+      // Console.WriteLine("Invalid letters \"{0}\" too few unique base words / lemmas", letters, baseWordCount);
       return null;
     }
 
     if (totalScore > 120)
     {
-      Console.WriteLine("Invalid letters \"{0}\" has a score of {1}", letters, totalScore);
+      // Console.WriteLine("Invalid letters \"{0}\" has a score of {1}", letters, totalScore);
       return null;
     }
 
-    Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", letters, letters[0], allSolutions.Count(), totalScore);
-    Console.WriteLine("Example solutions: {0}", string.Join(", ", allSolutions));
+    // Console.WriteLine("Letters: {0} ({1}) - Solutions={2}, Points={3}", letters, letters[0], allSolutions.Count(), totalScore);
+    // Console.WriteLine("Example solutions: {0}", string.Join(", ", allSolutions));
 
     return new Game()
     {
