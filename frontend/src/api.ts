@@ -1,4 +1,5 @@
 import { Game } from "./game";
+import { daysBetween } from "./util";
 
 export type GuessResponse =
   | { success: true }
@@ -23,6 +24,18 @@ export class Api {
 
     const i = Math.floor(Math.random() * gamesList.length);
     const gameDto = gamesList[i];
+    return new Game(gameDto.Letters, gameDto.TotalScore);
+  }
+
+  public static async daily(): Promise<Game> {
+    const gamesList = await Api.cachedFetch("/api/games.json");
+
+    const genesis = 1715724000000; // May 15 2024 00:00 GMT+0200
+    const dayNumber = daysBetween(new Date(genesis), new Date());
+
+    const i = dayNumber % gamesList.length
+    const gameDto = gamesList[i];
+
     return new Game(gameDto.Letters, gameDto.TotalScore);
   }
 

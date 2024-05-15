@@ -18,20 +18,68 @@ import {
   ID_BUTTON_NEW_GAME,
   selectEvent,
   ID_GAME_SELECTOR,
+  ID_BUTTON_SPLASH_CONTINUE,
+  ID_BUTTON_SPLASH_NEW_GAME,
+  ID_BUTTON_SPLASH_DAILY,
+  hideSplash,
 } from "./ui";
 
 let game: Game;
 let isLoading = false;
 
-const startUp = async () => {
-  const lastGameId = Game.getLatestGame();
-  if (lastGameId) {
-    game = Game.load(lastGameId);
-  } else {
+const splahStartUp = async () => {
+  clickEvent(ID_BUTTON_SPLASH_CONTINUE, () => {
+    if(isLoading) return;
+    isLoading = true;
+    startUp("CONTINUE");
+    isLoading = false;
+  });
+  clickEvent(ID_BUTTON_SPLASH_NEW_GAME, () => {
+    if(isLoading) return;
+    isLoading = true;
+    startUp("NEWGAME");
+    isLoading = false;
+  });
+  clickEvent(ID_BUTTON_SPLASH_DAILY, () => {
+    if(isLoading) return;
+    isLoading = true;
+    startUp("DAILY");
+    isLoading = false;
+  });
+};
+
+const startUp = async (startUpStrategy: string) => {
+  hideSplash();
+
+  if(startUpStrategy == "CONTINUE"){
+    const lastGameId = Game.getLatestGame();
+    if (lastGameId) {
+      game = Game.load(lastGameId);
+    } else {
+      startUpStrategy = "NEWGAME"
+    }
+  }
+
+  if(startUpStrategy == "NEWGAME"){
     const newGame = await Api.newGame();
     game = newGame;
     game.save();
   }
+
+  if(startUpStrategy == "DAILY"){
+    const dailyGame = await Api.daily();
+    game = dailyGame;
+
+    if(!Game.listGames().includes(game.letters)){
+      game.save();
+    }
+  }
+
+  if(!game){
+    alert("Noget gik galt..")
+    throw new Error("No game found!");
+  }
+
 
   const previousGames = Game.listGames().map((id) => Game.load(id));
 
@@ -122,4 +170,4 @@ const makeGuess = async (game: Game, guess: string) => {
   drawFoundWords(game);
 };
 
-startUp();
+splahStartUp();

@@ -6,12 +6,24 @@ const ID_SCORE_CURRENT = "current-score";
 const ID_SCORE_TOTAL = "total-score";
 const ID_LIST_WORDS = "found-words";
 const ID_TOAST = "toast";
+const ID_SPLASH = "splash";
+const ID_GAME = "game";
 const SELECTOR_HIVE_TEXTS = ".hive-cell text";
 
 export const ID_GAME_SELECTOR = "selected-game";
 export const ID_BUTTON_SHUFFLE = "button-shuffle";
 export const ID_BUTTON_SUBMIT = "button-submit";
 export const ID_BUTTON_NEW_GAME = "button-new-game";
+
+export const ID_BUTTON_SPLASH_CONTINUE = "button-splash-continue";
+export const ID_BUTTON_SPLASH_NEW_GAME = "button-splash-new-game";
+export const ID_BUTTON_SPLASH_DAILY = "button-splash-daily";
+
+
+export const hideSplash = () => {
+  document.getElementById(ID_SPLASH)?.remove();
+  document.getElementById(ID_GAME)?.classList.remove("hidden");
+}
 
 export const setHive = (letters: string) => {
   const letterOrder =
