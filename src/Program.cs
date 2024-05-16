@@ -172,15 +172,14 @@ if (args.Count() == 1 && args[0].ToLower() == "debug")
 
   var wordsQuery = db.Words.AsQueryable();
 
-  var games = generator.GenerateGame(wordsQuery);
+  for (int i = 1500; i < 14767; i += 500)
+  {
+    var games = generator.GenerateGame(wordsQuery, i, 500);
 
-  var newGames = games.Where(x => !db.Games.Any(y => y.Letters == x.Letters));
-
-  db.Games.AddRange(newGames);
-  db.SaveChanges();
-  // var solutions = generator.findSolutions(game.Letters[0], game.Letters, wordsQuery);
-
-  // Console.WriteLine("Actual solutions: {0}", string.Join(", ", solutions));
+    var newGames = games.Where(x => !db.Games.Any(y => y.Letters == x.Letters));
+    db.Games.AddRange(newGames);
+    db.SaveChanges();
+  }
 
   return;
 }

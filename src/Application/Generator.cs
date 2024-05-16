@@ -135,7 +135,7 @@ public class GameGenerator
     return words;
   }
 
-  public IEnumerable<Game> GenerateGame(IQueryable<WordDetails> words)
+  public IEnumerable<Game> GenerateGame(IQueryable<WordDetails> words, int skip, int take)
   {
     var pangramWords = words.Select(x => x.FullForm).AsEnumerable().Where(x => isPangram(x));
     var pangramGroups = pangramWords.GroupBy((x) => selectUniqueLetters(x), x => x, (key, words) => new { Key = key, Value = words });
@@ -149,7 +149,8 @@ public class GameGenerator
     Console.WriteLine($"{letterSetsCount} pangram groups found!");
 
     var source = letterSets
-            .Take(1500)
+            .Skip(skip)
+            .Take(take)
             .ToArray();
     var result = new ConcurrentBag<Game>();
 
