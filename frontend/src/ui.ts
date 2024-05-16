@@ -19,11 +19,11 @@ export const ID_BUTTON_SPLASH_CONTINUE = "button-splash-continue";
 export const ID_BUTTON_SPLASH_NEW_GAME = "button-splash-new-game";
 export const ID_BUTTON_SPLASH_DAILY = "button-splash-daily";
 
-
 export const hideSplash = () => {
   document.getElementById(ID_SPLASH)?.remove();
   document.getElementById(ID_GAME)?.classList.remove("hidden");
-}
+  document.getElementById(ID_INPUT_GUESS)?.focus();
+};
 
 export const setHive = (letters: string) => {
   const letterOrder =
@@ -91,8 +91,8 @@ export const drawFoundWords = (game: Game) => {
   game.guessedWords.forEach((word) => {
     let li = document.createElement("li");
     let a = document.createElement("a");
-    a.href = `https://ordnet.dk/ddo/ordbog?query=${word}`
-    a.target = "_blank"
+    a.href = `https://ordnet.dk/ddo/ordbog?query=${word}`;
+    a.target = "_blank";
     a.textContent = word;
     li.append(a);
     wordsElem.append(li);
@@ -155,7 +155,7 @@ export const parseMessage = (type: string): Message => {
 export class Toast {
   public static displayMessage(message: Message, type: ToastType): void {
     const prevToastElem = document.getElementById(ID_TOAST);
-    if(prevToastElem) prevToastElem.remove();
+    if (prevToastElem) prevToastElem.remove();
 
     const toastElem = document.createElement("div");
     toastElem.id = ID_TOAST;
