@@ -17,7 +17,7 @@ dotnet ef migrations add <MIGRATION_NAME>
 ```
 
 ```
-docker run --name=stavebi --rm -v "C:\Git\stavebi\dist:/usr/share/nginx/html" -p 5209:80 nginx
+docker run --name=stavebi --rm -v "./dist:/usr/share/nginx/html" -p 5209:80 nginx
 ```
 
 ## Links
