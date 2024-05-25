@@ -33,10 +33,14 @@ export class Api {
     const genesis = 1715724000000; // May 15 2024 00:00 GMT+0200
     const dayNumber = daysBetween(new Date(genesis), new Date());
 
-    const i = dayNumber % gamesList.length
+    const i = dayNumber % gamesList.length;
     const gameDto = gamesList[i];
 
-    return new Game(gameDto.Letters, gameDto.TotalScore);
+    try {
+      return Game.load(gameDto.Letters);
+    } catch (e) {
+      return new Game(gameDto.Letters, gameDto.TotalScore);
+    }
   }
 
   public static async guess(game: Game, guess: string): Promise<GuessResponse> {
