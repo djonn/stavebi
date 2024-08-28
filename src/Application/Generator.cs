@@ -1,3 +1,6 @@
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using StaveBi.IO;
 using StaveBi.Model;
@@ -192,6 +195,65 @@ public class GameGenerator
       Letters = letters,
       TotalScore = totalScore,
     };
+  }
+
+  /// <summary>
+  /// This finds the "hardest" game by the following definition that the hardest game
+  ///
+  /// - of the possible pangram solutions to the games' letterset the shortest pangram defines the difficulty
+  /// - higher word length is harder game
+  /// - any non-pangram word is ignored
+  /// - any longer pangrams are ignored
+  ///
+  /// </summary>
+  public void FindHardest(IEnumerable<Game> games, IQueryable<WordDetails> words)
+  {
+    var safeWords = words.ToList().ToImmutableList();
+
+    var source = games.ToArray();
+
+    var partitioner = Partitioner.Create(0, source.Length);
+
+    Console.WriteLine("starting loop");
+
+    var hardestPangramFoundLength = 7;
+    var hardestPangramFound = "0";
+    var hardestGameFound = "";
+
+    var watch = Stopwatch.StartNew();
+
+    Parallel.ForEach(partitioner, (range, state) => {
+      for (int i = range.Item1; i < range.Item2; i++)
+      {
+        if((i-range.Item1) % 50 == 1){
+          var current = i - range.Item1;
+          var count = range.Item2 - range.Item1;
+          var progress = Math.Round(current*1.0/count*100);
+          Console.WriteLine($"[{range.Item1}-{range.Item2}]: {current} ({progress}%)");
+        }
+
+        var game = source[i];
+        var shortestPangram = findSolutions(game.Letters[0], game.Letters, safeWords)
+              .Select(x => x.FullForm)
+              .Where(isPangram)
+              .OrderBy(x => x.Length).First();
+
+        if(shortestPangram.Length >= hardestPangramFoundLength){
+          lock(this)
+          {
+            if(shortestPangram.Length > hardestPangramFoundLength){
+              hardestPangramFoundLength = shortestPangram.Length;
+              hardestPangramFound = shortestPangram;
+              hardestGameFound = game.Letters;
+
+              Console.WriteLine($"New hardest found with shortest pangram having length\nPangram with length {shortestPangram.Length} was: {shortestPangram}\nGame was: {game.Letters}");
+            }
+          }
+        }
+      }
+    });
+    watch.Stop();
+    Console.WriteLine($"loop finished in {watch.Elapsed}");
   }
 
 }

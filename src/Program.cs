@@ -153,6 +153,13 @@ void DescribeGame(string letters)
   Console.WriteLine($"Words:\n{string.Join(", ", solutions.Select(x => x.FullForm).OrderBy(x => x.Length))}");
 }
 
+void HardestGameToFindPangram()
+{
+  var db = CreateDb();
+  var generator = new GameGenerator();
+  generator.FindHardest(db.Games.AsNoTracking(), db.Words.AsNoTracking());
+}
+
 // --------------
 
 if (args.Count() == 1 && args[0].ToLower() == "debug")
@@ -236,6 +243,12 @@ if (args.Count() == 1 && args[0].ToLower() == "lemma-count")
   Console.WriteLine("FullForm count: {0}", fullFormCount);
   Console.WriteLine("Lemma count: {0}", lemmaCount);
 
+  return;
+}
+
+if (args.Count() == 1 && args[0].ToLower() == "longest")
+{
+  HardestGameToFindPangram();
   return;
 }
 
